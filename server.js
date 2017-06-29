@@ -15,7 +15,8 @@ app.use(router.allowedMethods())
 router.get('/', ctx => {
   ctx.body = 'Alive Happy and Handsome !!!'
 })
-router.get('/users', require('./users').getUsers)
-router.pst('/users', require('./users').saveUsers)
-
+router.get('/users', require('./users').getUser)
+router.pst('/users', require('./users').saveUser)
+router.put('/users', require('./users').updateUser)
+router.del('/users', require('./users').removeUser)
 app.listen(config.api.port)
