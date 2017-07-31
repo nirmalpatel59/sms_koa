@@ -1,4 +1,4 @@
-module.exports.getUser = require('./userProfile').getUser
-module.exports.saveUser = require('./userProfile').saveUser
-module.exports.updateUser = require('./userProfile').updateUser
-module.exports.removeUser = require('./userProfile').removeUser
+module.exports.getUser = require('./user.controller').getUser
+module.exports.saveUser = require('./user.controller').saveUser
+module.exports.updateUser = require('./user.controller').updateUser
+module.exports.removeUser = require('./user.controller').removeUser

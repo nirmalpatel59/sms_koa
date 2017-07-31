@@ -1,7 +1,7 @@
-const UserModel = require('../models/user.model')
+const userService = require('./user.service.js')
 module.exports.getUser = async function (ctx) {
   console.log(ctx.query)
-  let data = await UserModel.findOne({'phone_no': ctx.query.phone_no})
+  let data = await userService.getUser(ctx.query.phone_no)
   ctx.body = data
 }
 
@@ -26,13 +26,12 @@ module.exports.saveUser = async function (ctx) {
     'standard_association': ctx.request.body.standard_association,
     'current_standard_association': ctx.request.body.current_standard_association
   }
-  let userSchema = new UserModel(userInstance)
-  let data = await userSchema.save()
+  let data = await userService.saveUser(userInstance)
   ctx.body = data
 }
 
 module.exports.updateUser = async function (ctx) {
-  let body = ctx.request.body;
+  let body = ctx.request.body
   let userInstance = {
     'first_name': body.first_name,
     'middle_name': body.middle_name,
@@ -52,13 +51,13 @@ module.exports.updateUser = async function (ctx) {
     'standard_association': body.standard_association,
     'current_standard_association': body.current_standard_association
   }
-  let data = await UserModel.findOneAndUpdate({ 'phone_no': body.phone_no }, userInstance, { new: true })
+  let data = await userService.updateUser(body.phone_no, userInstance)
   ctx.body = data
 }
 
 module.exports.removeUser = async function (ctx) {
-  let phone_no = ctx.query.phone_no
-  let data = await UserModel.findOneAndRemove({ 'phone_no': phone_no })
+  let phoneNo = ctx.query.phone_no
+  let data = await userService.findOneAndRemove(phoneNo)
   ctx.body = data
 }
 
