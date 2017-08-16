@@ -1,6 +1,6 @@
 const userService = require('./user.service.js')
+const getHashedPassword = require('../utils/common').getHashedPassword
 module.exports.getUser = async function (ctx) {
-  console.log(ctx.query)
   let data = await userService.getUser(ctx.query.phone_no)
   ctx.body = data
 }
@@ -19,7 +19,7 @@ module.exports.saveUser = async function (ctx) {
     'role': ctx.request.body.role,
     'status': ctx.request.body.status,
     'type': ctx.request.body.type,
-    'password': ctx.request.body.password,
+    'password': await getHashedPassword(ctx.request.body.password),
     'academics': ctx.request.body.academics,
     'specialization': ctx.request.body.specialization,
     'major_specialization': ctx.request.body.major_specialization,
@@ -44,7 +44,6 @@ module.exports.updateUser = async function (ctx) {
     'role': body.role,
     'status': body.status,
     'type': body.type,
-    'password': body.password,
     'academics': body.academics,
     'specialization': body.specialization,
     'major_specialization': body.major_specialization,
@@ -57,20 +56,6 @@ module.exports.updateUser = async function (ctx) {
 
 module.exports.removeUser = async function (ctx) {
   let phoneNo = ctx.query.phone_no
-  let data = await userService.findOneAndRemove(phoneNo)
+  let data = await userService.removeUser(phoneNo)
   ctx.body = data
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,6 +1,6 @@
 const UserModel = require('../models/user.model')
 module.exports.getUser = async function (phoneNo) {
-  console.log(phoneNo)
+  // console.log(phoneNo)
   let data = await UserModel.findOne({'phone_no': phoneNo})
   return data
 }
@@ -20,5 +20,3 @@ module.exports.removeUser = async function (phoneNo) {
   let data = await UserModel.findOneAndRemove({ 'phone_no': phoneNo })
   return data
 }
-
-
