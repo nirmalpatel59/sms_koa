@@ -3,7 +3,6 @@ const config = require('config')
 const dbUri = config.mongodb.uri
 
 mongoose.connect(dbUri)
-
 mongoose.connection.on('connected', function () {
   console.log('MongoDB connected')
 })
@@ -21,3 +20,9 @@ mongoose.connection.on('SIGINT', function () {
     process.exit(0)
   })
 })
+// module.exports = function() {
+//   return async function authorize(ctx, next) {
+      
+//     await next()
+//   }
+// }
