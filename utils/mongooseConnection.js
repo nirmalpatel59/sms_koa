@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
 const config = require('config')
 const dbUri = config.mongodb.uri
-
-mongoose.connect(dbUri)
+const options = {
+  useMongoClient: true
+}
+mongoose.connect(dbUri, options)
 mongoose.connection.on('connected', function () {
   console.log('MongoDB connected')
 })
@@ -22,7 +24,7 @@ mongoose.connection.on('SIGINT', function () {
 })
 // module.exports = function() {
 //   return async function authorize(ctx, next) {
-      
+
 //     await next()
 //   }
 // }

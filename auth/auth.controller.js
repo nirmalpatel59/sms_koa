@@ -10,17 +10,44 @@ module.exports.signIn = async function (ctx) {
   let username = ctx.request.body.username
   let password = ctx.request.body.password
   let data = await authService.signIn(username, password)
-  if (varifyUser(username, password, data)) {
+  let verificationStatus = await varifyUser(username, password, data)
+  if (verificationStatus.status) {
     ctx.body = {
-      message: 'Successfully SignIn',
-      token: jwt.sign(data[0].phone_no, config.auth.secretKey)
+      message: verificationStatus.message,
+      token: jwt.sign({ 'username': data[0].phone_no, 'email': data[0].email }, config.auth.secret)
     }
   } else {
     ctx.body = {
-      message: 'No User Found',
-      token: ''
+      message: verificationStatus.message
     }
   }
+}
+
+let varifyUser = async function (username, password, data) {
+  if (data.length === 0 || data.length > 1) {
+    return {
+      status: false,
+      message: 'No User Found'
+    }
+  } else if (!(await verifyPassword(password, data[0].password))) {
+    return {
+      status: false,
+      message: 'Password is wrong '
+    }
+  } else {
+    return {
+      status: true,
+      message: 'Successfully Signed In'
+    }
+  }
+}
+
+let verifyPassword = async function (pwd, hash) {
+  // console.log(pwd)
+  // console.log(hash)
+  let res = await bcrypt.compare(pwd, hash)
+  // console.log(res)
+  return res
 }
 
 module.exports.signUp = async function (ctx) {
@@ -83,21 +110,4 @@ module.exports.varifyOTP = async function (ctx) {
   ctx.body = body
   // let verifiedData = request.get('https://2factor.in/API/V1/85dc3ded-8122-11e7-94da-0200cd936042/SMS/VERIFY/' + details + '/' + otp)
   // ctx.body = verifiedData
-}
-
-let varifyUser = function (username, password, data) {
-  if (data.length === 0 || data.length > 1) {
-    return false
-  } else if (username !== data[0].phone_no) {
-    return false
-  } else if (!verifyPassword(password, data[0].password)) {
-    return false
-  } else {
-    return true
-  }
-}
-
-let verifyPassword = async function (pwd, hash) {
-  let res = await bcrypt.compare(pwd, hash)
-  return res
 }

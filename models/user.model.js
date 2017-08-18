@@ -1,4 +1,6 @@
 let mongoose = require('mongoose')
+mongoose.Promise = Promise
+
 let Schema = mongoose.Schema
 
 let userSchema = new Schema({
