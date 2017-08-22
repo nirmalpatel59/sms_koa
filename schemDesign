@@ -1,0 +1,51 @@
+collection => result_uploads
+{
+  added_by:
+  updated_by:
+  updatedAt:
+  createdAt:
+  standard:
+  subject:
+  total_marks:
+  standard_section:
+  exam_date:
+  exam_name:
+  exam_id:
+}
+
+
+collection => results
+===========
+{
+  student_id:
+  roll_no:
+  marks_obtained:
+}
+
+collection => students
+===========
+{
+  student_id:
+  first_name:
+  last_name:
+  middle_name:
+  primary_address:
+  secondary_address:
+  phone_no:
+  e_phone_no:
+  e_name:
+  e_relation:
+  gender:
+  date_of_birth:
+  date_of_joining:
+  academics:[
+    {
+      standard:
+      standard_section:
+      medium:
+      stream:
+      shift:
+    } 
+  ]
+}
+

@@ -3,13 +3,12 @@ const Router = require('koa-router')
 const config = require('config')
 const koaBody = require('koa-body')
 const compose = require('koa-compose')
-const jwt = require('koa-jwt')
+const app = new Koa()
 
-const app   = new Koa()
-let public  = new Router()
-let private = new Router()
-public.pst  = public.post
-private.pst  = private.post
+let pubRouter = new Router()
+let priRouter = new Router()
+pubRouter.pst = pubRouter.post
+priRouter.pst = priRouter.post
 
 let auth = require('./utils/middleware/auth')
 require('./utils/mongooseConnection')
@@ -29,22 +28,28 @@ app.use(async (ctx, next) => {
 
 app.use(koaBody())
 
-//Public Routes
-public.pst('/signin', require('./auth').signIn)
-public.pst('/signup', require('./auth').signUp)
-public.pst('/forgot_password', require('./auth').forgotPassword)
-public.pst('/varify_otp', require('./auth').varifyOTP)
+// Public Routes
+pubRouter.pst('/signin', require('./auth').signIn)
+pubRouter.pst('/signup', require('./auth').signUp)
+pubRouter.pst('/forgot_password', require('./auth').forgotPassword)
+pubRouter.pst('/varify_otp', require('./auth').varifyOTP)
 
-//Private Routes
-app.use(compose([public.routes(), public.allowedMethods(), auth(), private.routes(), private.allowedMethods()]))
-private.get('/', ctx => {
+// Private Routes
+app.use(compose([pubRouter.routes(), pubRouter.allowedMethods(), auth(), priRouter.routes(), priRouter.allowedMethods()]))
+priRouter.get('/', ctx => {
   ctx.body = 'Alive Happy and Handsome !!!'
 })
-private.get('/users', require('./users/').getUser)
-private.pst('/users', require('./users').saveUser)
-private.put('/users', require('./users').updateUser)
-private.del('/users', require('./users').removeUser)
+priRouter.get('/users', require('./users/').getUser)
+priRouter.pst('/users', require('./users').saveUser)
+priRouter.put('/users', require('./users').updateUser)
+priRouter.del('/users', require('./users').removeUser)
 
-private.pst('/myaccount/change_password', require('./myAccount').changePassword)
+priRouter.pst('/myaccount/change_password', require('./myAccount').changePassword)
+
+priRouter.get('/student', require('./students').getStudent)
+priRouter.pst('/student', require('./students').addStudent)
+priRouter.put('/student', require('./students').updateStudent)
+priRouter.del('/student', require('./students').removeStudent)
+// priRouter.get('/students', require('./students/').getStudents)
 
 app.listen(config.api.port)
