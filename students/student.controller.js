@@ -11,28 +11,28 @@ module.exports.addStudent = async function (ctx) {
   if (isStudentExists()) {
 
   }
-  let studentData = {
-    first_name: ctxReq.first_name,
-    last_name: ctxReq.last_name,
-    middle_name: ctxReq.middle_name || '',
-    primary_address: ctxReq.primary_address,
-    secondary_address: ctxReq.secondary_address || '',
-    phone_no: ctxReq.phone_no,
-    e_phone_no: ctxReq.e_phone_no,
-    e_name: ctxReq.e_name,
-    e_relation: ctxReq.e_relation,
-    gender: ctxReq.gender,
-    date_of_birth: ctxReq.date_of_birth,
-    date_of_joining: ctxReq.date_of_joining,
-    academics: ctxReq.academics,
-    current_standard: ctxReq.current_standard,
-    current_standard_section: ctxReq.current_standard_section,
-    current_medium: ctxReq.current_medium,
-    current_stream: ctxReq.current_stream,
-    current_shift: ctxReq.current_shift,
-    current_roll_no: ctxReq.current_roll_no
-  }
-  let data = await studentService.addStudent(studentData)
+  // let studentData = {
+  //   first_name: ctxReq.first_name,
+  //   last_name: ctxReq.last_name,
+  //   middle_name: ctxReq.middle_name || '',
+  //   primary_address: ctxReq.primary_address,
+  //   secondary_address: ctxReq.secondary_address || '',
+  //   phone_no: ctxReq.phone_no,
+  //   e_phone_no: ctxReq.e_phone_no,
+  //   e_name: ctxReq.e_name,
+  //   e_relation: ctxReq.e_relation,
+  //   gender: ctxReq.gender,
+  //   date_of_birth: ctxReq.date_of_birth,
+  //   date_of_joining: ctxReq.date_of_joining,
+  //   academics: ctxReq.academics,
+  //   current_standard: ctxReq.current_standard,
+  //   current_standard_section: ctxReq.current_standard_section,
+  //   current_medium: ctxReq.current_medium,
+  //   current_stream: ctxReq.current_stream,
+  //   current_shift: ctxReq.current_shift,
+  //   current_roll_no: ctxReq.current_roll_no
+  // }
+  let data = await studentService.addStudent(ctxReq)
   ctx.body = data
 }
 
@@ -56,7 +56,7 @@ module.exports.updateStudent = async function (ctx) {
     current_roll_no: ctxReq.current_roll_no
   }
 
-  let data = await studentService.updateStudent(ctxReq._id, studentData)
+  let data = await studentService.updateStudent(ctxReq._id, ctx.request.body)
   ctx.body = data
 }
 

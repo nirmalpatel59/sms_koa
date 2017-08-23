@@ -11,7 +11,7 @@ module.exports.addStudent = async function (studentData) {
 }
 
 module.exports.updateStudent = async function (stdId, studentData) {
-  let data = StudentModel.findOneAndUpdate({ '_id': stdId }, studentData)
+  let data = StudentModel.findOneAndUpdate({ '_id': stdId }, { $set: studentData }, { new: true })
   return data
 }
 
