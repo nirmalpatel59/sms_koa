@@ -19,3 +19,8 @@ module.exports.removeStudent = async function (studentId) {
   let data = await StudentModel.findOneAndRemove({'_id': studentId})
   return data
 }
+
+module.exports.isStudentExists = async function (selector) {
+  let data = await StudentModel.findOne(selector)
+  return data
+}
