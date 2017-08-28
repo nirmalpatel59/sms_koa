@@ -11,6 +11,8 @@ pubRouter.pst = pubRouter.post
 priRouter.pst = priRouter.post
 
 let auth = require('./utils/middleware/auth')
+let requestLog = require('./utils/middleware/requestLog')
+
 require('./utils/mongooseConnection')
 
 app.use(async (ctx, next) => {
@@ -35,7 +37,7 @@ pubRouter.pst('/forgot_password', require('./auth').forgotPassword)
 pubRouter.pst('/varify_otp', require('./auth').varifyOTP)
 
 // Private Routes
-app.use(compose([pubRouter.routes(), pubRouter.allowedMethods(), auth(), priRouter.routes(), priRouter.allowedMethods()]))
+app.use(compose([requestLog(), pubRouter.routes(), pubRouter.allowedMethods(), auth(), priRouter.routes(), priRouter.allowedMethods()]))
 priRouter.get('/', ctx => {
   ctx.body = 'Alive Happy and Handsome !!!'
 })
