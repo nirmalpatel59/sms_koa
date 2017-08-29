@@ -6,28 +6,36 @@ module.exports.getUser = async function (ctx) {
 }
 
 module.exports.saveUser = async function (ctx) {
-  let userInstance = {
-    'first_name': ctx.request.body.first_name,
-    'middle_name': ctx.request.body.middle_name,
-    'last_name': ctx.request.body.last_name,
-    'marital_status': ctx.request.body.marital_status,
-    'gender': ctx.request.body.gender,
-    'email': ctx.request.body.email,
-    'phone_no': ctx.request.body.phone_no,
-    'date_of_joining': ctx.request.body.date_of_joining,
-    'date_of_birth': ctx.request.body.date_of_birth,
-    'role': ctx.request.body.role,
-    'status': ctx.request.body.status,
-    'type': ctx.request.body.type,
-    'password': await getHashedPassword(ctx.request.body.password),
-    'academics': ctx.request.body.academics,
-    'specialization': ctx.request.body.specialization,
-    'major_specialization': ctx.request.body.major_specialization,
-    'standard_association': ctx.request.body.standard_association,
-    'current_standard_association': ctx.request.body.current_standard_association
+  let ctxReq = ctx.req.body
+  if (!(await isUserExists())) {
+    let userInstance = {
+      'first_name': ctxReq.first_name,
+      'middle_name': ctxReq.middle_name,
+      'last_name': ctxReq.last_name,
+      'marital_status': ctxReq.marital_status,
+      'gender': ctxReq.gender,
+      'email': ctxReq.email,
+      'phone_no': ctxReq.phone_no,
+      'date_of_joining': ctxReq.date_of_joining,
+      'date_of_birth': ctxReq.date_of_birth,
+      'role': ctxReq.role,
+      'status': ctxReq.status,
+      'type': ctxReq.type,
+      'password': await getHashedPassword(ctxReq.password),
+      'academics': ctxReq.academics,
+      'specialization': ctxReq.specialization,
+      'major_specialization': ctxReq.major_specialization,
+      'standard_association': ctxReq.standard_association,
+      'current_standard_association': ctxReq.current_standard_association
+    }
+    let data = await userService.saveUser(userInstance)
+    ctx.body = data
+  } else {
+    ctx.body = {
+      message: 'User Already exist',
+      code: 200
+    }
   }
-  let data = await userService.saveUser(userInstance)
-  ctx.body = data
 }
 
 module.exports.updateUser = async function (ctx) {
@@ -58,4 +66,12 @@ module.exports.removeUser = async function (ctx) {
   let phoneNo = ctx.query.phone_no
   let data = await userService.removeUser(phoneNo)
   ctx.body = data
+}
+
+let isUserExists = async function (reqBody) {
+  let selector = {
+    'phone_no': reqBody.phone_no
+  }
+  let isExist = await userService.isUserExist(selector)
+  return isExist
 }

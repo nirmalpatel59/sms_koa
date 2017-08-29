@@ -5,6 +5,7 @@ const request = require('request')
 
 const getHashedPassword = require('../utils/common').getHashedPassword
 const authService = require('./authService')
+const userService = require('../users/user.service')
 
 module.exports.signIn = async function (ctx) {
   let username = ctx.request.body.username
@@ -51,28 +52,38 @@ let verifyPassword = async function (pwd, hash) {
 }
 
 module.exports.signUp = async function (ctx) {
-  let userInstance = {
-    'first_name': ctx.request.body.first_name,
-    'middle_name': ctx.request.body.middle_name,
-    'last_name': ctx.request.body.last_name,
-    'marital_status': ctx.request.body.marital_status,
-    'gender': ctx.request.body.gender,
-    'email': ctx.request.body.email,
-    'phone_no': ctx.request.body.phone_no,
-    'date_of_joining': ctx.request.body.date_of_joining,
-    'date_of_birth': ctx.request.body.date_of_birth,
-    'role': ctx.request.body.role,
-    'status': ctx.request.body.status,
-    'type': ctx.request.body.type,
-    'password': await getHashedPassword(ctx.request.body.password),
-    'academics': ctx.request.body.academics,
-    'specialization': ctx.request.body.specialization,
-    'major_specialization': ctx.request.body.major_specialization,
-    'standard_association': ctx.request.body.standard_association,
-    'current_standard_association': ctx.request.body.current_standard_association
+  let selector = {
+    'phone_no': ctx.request.body.phone_no
   }
-  let data = await authService.signUp(userInstance)
-  ctx.body = data
+  if (!(await userService.isUserExist(selector))) {
+    let userInstance = {
+      'first_name': ctx.request.body.first_name,
+      'middle_name': ctx.request.body.middle_name,
+      'last_name': ctx.request.body.last_name,
+      'marital_status': ctx.request.body.marital_status,
+      'gender': ctx.request.body.gender,
+      'email': ctx.request.body.email,
+      'phone_no': ctx.request.body.phone_no,
+      'date_of_joining': ctx.request.body.date_of_joining,
+      'date_of_birth': ctx.request.body.date_of_birth,
+      'role': ctx.request.body.role,
+      'status': ctx.request.body.status,
+      'type': ctx.request.body.type,
+      'password': await getHashedPassword(ctx.request.body.password),
+      'academics': ctx.request.body.academics,
+      'specialization': ctx.request.body.specialization,
+      'major_specialization': ctx.request.body.major_specialization,
+      'standard_association': ctx.request.body.standard_association,
+      'current_standard_association': ctx.request.body.current_standard_association
+    }
+    let data = await userService.saveUser(userInstance)
+    ctx.body = data
+  } else {
+    ctx.body = {
+      message: 'User Already exist',
+      code: 200
+    }
+  }
 }
 
 module.exports.forgotPassword = async function (ctx) {

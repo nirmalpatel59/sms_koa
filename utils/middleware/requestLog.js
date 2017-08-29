@@ -4,6 +4,6 @@ module.exports = function () {
     let startTime = moment()
     await next()
     let endTime = moment()
-    console.log('request Time :: ' + endTime.diff(startTime))
+    console.log('request Time :: ' + endTime.diff(startTime) + ' ms')
   }
 }

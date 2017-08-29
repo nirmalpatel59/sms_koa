@@ -8,7 +8,7 @@ module.exports.getStudent = async function (ctx) {
 
 module.exports.addStudent = async function (ctx) {
   let ctxReq = ctx.request.body
-  if (!(await isStudentExists(ctx.request.body))) {
+  if (!(await isStudentExists(ctxReq))) {
     let studentData = {
       first_name: ctxReq.first_name,
       last_name: ctxReq.last_name,

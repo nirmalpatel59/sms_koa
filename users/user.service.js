@@ -20,3 +20,8 @@ module.exports.removeUser = async function (phoneNo) {
   let data = await UserModel.findOneAndRemove({ 'phone_no': phoneNo })
   return data
 }
+
+module.exports.isUserExist = async function (selector) {
+  let data = await UserModel.findOne(selector)
+  return data
+}
