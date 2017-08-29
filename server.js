@@ -28,7 +28,10 @@ app.use(async (ctx, next) => {
   }
 })
 
-app.use(koaBody())
+app.use(koaBody({
+  multipart: true,
+  formidable: {}
+}))
 
 // Public Routes
 pubRouter.pst('/signin', require('./auth').signIn)
@@ -52,6 +55,8 @@ priRouter.get('/student', require('./students').getStudent)
 priRouter.pst('/student', require('./students').addStudent)
 priRouter.put('/student', require('./students').updateStudent)
 priRouter.del('/student', require('./students').removeStudent)
+
+priRouter.pst('/upload_students', require('./students').uploadStudents)
 // priRouter.get('/students', require('./students/').getStudents)
 
 app.listen(config.api.port)

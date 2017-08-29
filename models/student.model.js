@@ -9,7 +9,7 @@ let studentSchema = new Schema({
   primary_address: { type: String, required: true },
   secondary_address: { type: String },
   phone_no: { type: String },
-  e_phone_no: { type: String, required: true },
+  e_phone_no: { type: String, required: true, unique: true },
   e_name: { type: String, required: true },
   e_relation: { type: String, required: true },
   gender: { type: String, required: true },

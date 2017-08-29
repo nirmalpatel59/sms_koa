@@ -24,3 +24,8 @@ module.exports.isStudentExists = async function (selector) {
   let data = await StudentModel.findOne(selector)
   return data
 }
+
+module.exports.uploadStudents = async function (stdObj) {
+  let data = StudentModel.insertMany(stdObj)
+  return data
+}

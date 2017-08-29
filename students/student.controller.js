@@ -1,4 +1,7 @@
 let studentService = require('./student.service')
+let csv = require('csvtojson')
+// let config = require('config')
+// let fs = require('fs')
 
 module.exports.getStudent = async function (ctx) {
   let studentId = ctx.query.studentId
@@ -52,6 +55,13 @@ module.exports.removeStudent = async function (ctx) {
   ctx.body = data
 }
 
+module.exports.uploadStudents = async function (ctx) {
+  let fileUrl = ctx.request.body.files.uploadFile.path
+  let uploadData = await readFile(fileUrl)
+  let data = await studentService.uploadStudents(uploadData)
+  ctx.body = data
+}
+
 let isStudentExists = async function (reqBody) {
   let selector = {
     'e_phone_no': reqBody.e_phone_no,
@@ -60,4 +70,21 @@ let isStudentExists = async function (reqBody) {
   }
   let isExist = await studentService.isStudentExists(selector)
   return isExist
+}
+
+let readFile = function (path) {
+  let studentObject = []
+  return new Promise((resolve, reject) => {
+    csv().fromFile(path)
+      .on('json', (jsonObj) => {
+        studentObject.push(jsonObj)
+      })
+      .on('done', (error) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve(studentObject)
+        }
+      })
+  })
 }

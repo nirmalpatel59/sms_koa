@@ -11,6 +11,8 @@
   "dependencies": {
     "bcrypt": "^1.0.2",
     "config": "^1.26.1",
+    "csvtojson": "^1.1.7",
+    "fast-csv": "^2.4.0",
     "jsonwebtoken": "^7.4.2",
     "koa": "^2.3.0",
     "koa-body": "^2.3.0",
