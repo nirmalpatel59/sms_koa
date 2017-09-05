@@ -1,7 +1,13 @@
 {
     "mongodb": {
         "uri": "mongodb://localhost:27017/sms_koa"
-    }, 
+    },
+    "collections": {
+        "EXAMS": "exams",
+        "USERS": "users",
+        "STUDENTS": "students",
+        "EXAM_RESULTS": "exam_results"
+    },
     "api": {
         "port":3000
     },

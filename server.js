@@ -57,6 +57,9 @@ priRouter.put('/student', require('./students').updateStudent)
 priRouter.del('/student', require('./students').removeStudent)
 
 priRouter.pst('/upload_students', require('./students').uploadStudents)
+
+priRouter.get('/getExam', require('./exams').getExam)
+priRouter.pst('/saveExam', require('./exams').saveExam)
 // priRouter.get('/students', require('./students/').getStudents)
 
 app.listen(config.api.port)

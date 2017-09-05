@@ -1,6 +1,6 @@
 let mongoose = require('mongoose')
 mongoose.Promise = Promise
-
+let config = require('config')
 let Schema = mongoose.Schema
 
 let userSchema = new Schema({
@@ -24,4 +24,4 @@ let userSchema = new Schema({
   current_standard_association: {type: Array}
 }, { timestamps: true })
 
-module.exports = mongoose.model('users', userSchema)
+module.exports = mongoose.model(config.collections.USERS, userSchema)

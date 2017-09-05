@@ -1,5 +1,6 @@
 let mongoose = require('mongoose')
 let Schema = mongoose.Schema
+let config = require('config')
 mongoose.Promise = Promise
 
 let studentSchema = new Schema({
@@ -32,4 +33,4 @@ let studentSchema = new Schema({
   current_roll_no: { type: String }
 })
 
-module.exports = mongoose.model('students', studentSchema)
+module.exports = mongoose.model(config.collections.STUDENTS, studentSchema)
