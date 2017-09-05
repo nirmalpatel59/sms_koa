@@ -29,10 +29,16 @@ module.exports.saveExam = async function (ctx) {
   ctx.body = data
 }
 
-module.exports.updateExam = function (ctx) {
-
+module.exports.updateExam = async function (ctx) {
+  let reqBody = ctx.req.body
+  let data = await examService.updateExam(reqBody)
+  ctx.body = data
 }
 
-module.exports.removeExam = function (ctx) {
-
+module.exports.removeExam = async function (ctx) {
+  let selector = {
+    examId: ctx.query.examId
+  }
+  let data = await examService.removeExam(selector)
+  ctx.body = data
 }
