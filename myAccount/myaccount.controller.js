@@ -29,7 +29,7 @@ module.exports.changePassword = async function (ctx) {
       } else {
         // TODO :: Handle error when db operation fails from service
         ctx.body = {
-          message: 'error  in Db operation'
+          message: 'error in Db operation'
         }
       }
     } else {

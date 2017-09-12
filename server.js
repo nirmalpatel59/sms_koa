@@ -38,6 +38,7 @@ pubRouter.pst('/signin', require('./auth').signIn)
 pubRouter.pst('/signup', require('./auth').signUp)
 pubRouter.pst('/forgot_password', require('./auth').forgotPassword)
 pubRouter.pst('/varify_otp', require('./auth').varifyOTP)
+pubRouter.pst('/stdSignIn', require('./stdApis/auth').signIn)
 
 // Private Routes
 app.use(compose([requestLog(), pubRouter.routes(), pubRouter.allowedMethods(), auth(), priRouter.routes(), priRouter.allowedMethods()]))
@@ -64,5 +65,5 @@ priRouter.pst('/saveExam', require('./exams').saveExam)
 priRouter.get('/getExamResult', require('./examResults').getExamResult)
 priRouter.pst('/saveExamResult', require('./examResults').addExamResult)
 // priRouter.get('/students', require('./students/').getStudents)
-
+pubRouter.pst('/stdSignIn', require('./stdApis/auth').signIn)
 app.listen(config.api.port)
