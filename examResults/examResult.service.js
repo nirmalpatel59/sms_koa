@@ -1,7 +1,7 @@
 let ExamResultModel = require('../models/examResult.model')
 
 module.exports.getExamResult = async function (selector) {
-  let data = await ExamResultModel.findOne(selector)
+  let data = await ExamResultModel.findOne(selector).populate('studentId uploaded_by examId')
   return data
 }
 
@@ -12,7 +12,7 @@ module.exports.addExamResult = async function (examResultData) {
 }
 
 module.exports.updateExamResult = async function (examResultData) {
-  let data = await ExamResultModel.findByIdAndUpdate({ '_id': examResultData.examId }, { $set: examResultData }, { new: true })
+  let data = await ExamResultModel.findByIdAndUpdate({ 'examId': examResultData.examId }, { $set: examResultData }, { new: true })
   return data
 }
 

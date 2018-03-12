@@ -2,17 +2,18 @@ let examResultService = require('./examResult.service.js')
 
 module.exports.getExamResult = async function (ctx) {
   let selector = {
-    'examId': ctx.request.body.examId
+    'examId': ctx.query.examId
   }
   let data = await examResultService.getExamResult(selector)
-  return data
+  ctx.body = data
 }
 
 module.exports.addExamResult = async function (ctx) {
   let examData = {
     studentId: ctx.request.body.studentId,
     examId: ctx.request.body.examId,
-    marks: ctx.request.body.marks
+    marks: ctx.request.body.marks,
+    uploaded_by: ctx.auth._id
   }
   let data = await examResultService.addExamResult(examData)
   ctx.body = data

@@ -22,9 +22,3 @@ mongoose.connection.on('SIGINT', function () {
     process.exit(0)
   })
 })
-// module.exports = function() {
-//   return async function authorize(ctx, next) {
-
-//     await next()
-//   }
-// }

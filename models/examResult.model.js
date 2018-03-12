@@ -4,8 +4,9 @@ let config = require('config')
 
 let ExamResultSchema = new Schema({
   studentId: { type: Schema.ObjectId, ref: config.collections.STUDENTS },
-  examId: { type: Schema.ObjectId, ref: config.collections.EXAMS },
-  marks: { type: Number }
+  examId: { type: String, ref: config.collections.EXAMS },
+  marks: { type: Number },
+  uploaded_by: { type: Schema.ObjectId, ref: config.collections.USERS }
 })
 
 module.exports = mongoose.model(config.collections.EXAM_RESULTS, ExamResultSchema)

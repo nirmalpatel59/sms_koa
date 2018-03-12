@@ -12,7 +12,7 @@ module.exports.saveExam = async function (examData) {
 }
 
 module.exports.updateExam = async function (examData) {
-  let data = await ExamModel.findOneAndUpdate({ '_id': examData.examId }, { $set: examData }, { new: true })
+  let data = await ExamModel.findOneAndUpdate({ 'exam_id': examData.examId }, { $set: examData }, { new: true })
   return data
 }
 

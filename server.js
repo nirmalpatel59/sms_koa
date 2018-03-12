@@ -61,6 +61,8 @@ priRouter.pst('/upload_students', require('./students').uploadStudents)
 
 priRouter.get('/getExam', require('./exams').getExam)
 priRouter.pst('/saveExam', require('./exams').saveExam)
+priRouter.pst('/updateExam', require('./exams').updateExam)
+priRouter.pst('/removeExam', require('./exams').removeExam)
 
 priRouter.get('/getExamResult', require('./examResults').getExamResult)
 priRouter.pst('/saveExamResult', require('./examResults').addExamResult)

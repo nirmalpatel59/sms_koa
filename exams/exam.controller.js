@@ -30,7 +30,7 @@ module.exports.saveExam = async function (ctx) {
 }
 
 module.exports.updateExam = async function (ctx) {
-  let reqBody = ctx.req.body
+  let reqBody = ctx.request.body
   let data = await examService.updateExam(reqBody)
   ctx.body = data
 }

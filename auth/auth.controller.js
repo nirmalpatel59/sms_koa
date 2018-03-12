@@ -15,7 +15,7 @@ module.exports.signIn = async function (ctx) {
   if (verificationStatus.status) {
     ctx.body = {
       message: verificationStatus.message,
-      token: jwt.sign({ 'username': data[0].phone_no, 'email': data[0].email }, config.auth.secret)
+      token: jwt.sign({ 'username': data[0].phone_no, 'email': data[0].email, '_id': data[0]._id }, config.auth.secret)
     }
   } else {
     ctx.body = {
