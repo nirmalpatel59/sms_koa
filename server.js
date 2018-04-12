@@ -11,7 +11,7 @@ pubRouter.pst = pubRouter.post
 priRouter.pst = priRouter.post
 
 let auth = require('./utils/middleware/auth')
-let requestLog = require('./utils/middleware/requestLog')
+let requestLog = require('./utils/middleware/requestLog').requestLog
 
 require('./utils/mongooseConnection')
 
@@ -24,7 +24,7 @@ app.use(async (ctx, next) => {
       'message': err.message,
       'status': ctx.status
     }
-    ctx.app.emit('error', err, ctx)
+    // ctx.app.emit('error', err, ctx)
   }
 })
 
@@ -41,7 +41,7 @@ pubRouter.pst('/varify_otp', require('./auth').varifyOTP)
 pubRouter.pst('/stdSignIn', require('./stdApis/auth').signIn)
 
 // Private Routes
-app.use(compose([requestLog(), pubRouter.routes(), pubRouter.allowedMethods(), auth(), priRouter.routes(), priRouter.allowedMethods()]))
+app.use(compose([requestLog, pubRouter.routes(), pubRouter.allowedMethods(), auth(), priRouter.routes(), priRouter.allowedMethods()]))
 priRouter.get('/', ctx => {
   ctx.body = 'Alive Happy and Handsome !!!'
 })
@@ -68,4 +68,6 @@ priRouter.get('/getExamResult', require('./examResults').getExamResult)
 priRouter.pst('/saveExamResult', require('./examResults').addExamResult)
 // priRouter.get('/students', require('./students/').getStudents)
 pubRouter.pst('/stdSignIn', require('./stdApis/auth').signIn)
-app.listen(config.api.port)
+app.listen(config.api.port, () => {
+  console.log(`server is running on port ${config.api.port}`)
+})

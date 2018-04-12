@@ -29,6 +29,6 @@ module.exports.uploadStudents = async function (stdObj) {
   let options = {
     'ordered': false
   }
-  let data = StudentModel.insertMany(stdObj, options)
+  let data = await StudentModel.insertMany(stdObj, options)
   return data
 }
