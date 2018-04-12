@@ -12,21 +12,22 @@ priRouter.pst = priRouter.post
 
 let auth = require('./utils/middleware/auth')
 let requestLog = require('./utils/middleware/requestLog').requestLog
+let errorLog = require('./utils/middleware/error').error
 
 require('./utils/mongooseConnection')
 
-app.use(async (ctx, next) => {
-  try {
-    await next()
-  } catch (err) {
-    ctx.status = err.status || 500
-    ctx.body = {
-      'message': err.message,
-      'status': ctx.status
-    }
-    // ctx.app.emit('error', err, ctx)
-  }
-})
+// app.use(async (ctx, next) => {
+//   try {
+//     await next()
+//   } catch (err) {
+//     ctx.status = err.status || 500
+//     ctx.body = {
+//       'message': err.message,
+//       'status': ctx.status
+//     }
+//     // ctx.app.emit('error', err, ctx)
+//   }
+// })
 
 app.use(koaBody({
   multipart: true,
@@ -41,7 +42,7 @@ pubRouter.pst('/varify_otp', require('./auth').varifyOTP)
 pubRouter.pst('/stdSignIn', require('./stdApis/auth').signIn)
 
 // Private Routes
-app.use(compose([requestLog, pubRouter.routes(), pubRouter.allowedMethods(), auth(), priRouter.routes(), priRouter.allowedMethods()]))
+app.use(compose([errorLog, requestLog, pubRouter.routes(), pubRouter.allowedMethods(), auth(), priRouter.routes(), priRouter.allowedMethods()]))
 priRouter.get('/', ctx => {
   ctx.body = 'Alive Happy and Handsome !!!'
 })

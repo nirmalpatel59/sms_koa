@@ -51,7 +51,7 @@ let verifyPassword = async function (pwd, hash) {
   return res
 }
 
-module.exports.signUp = async function (ctx) {
+module.exports.signUp = async (ctx) => {
   let selector = {
     'phone_no': ctx.request.body.phone_no
   }
@@ -86,7 +86,7 @@ module.exports.signUp = async function (ctx) {
   }
 }
 
-module.exports.forgotPassword = async function (ctx) {
+module.exports.forgotPassword = async (ctx) => {
   let phoneNo = ctx.request.body.phone_no
   let data = await authService.getUserByPhoneNo(phoneNo)
   if (data) {
@@ -105,7 +105,7 @@ module.exports.forgotPassword = async function (ctx) {
   }
 }
 
-module.exports.varifyOTP = async function (ctx) {
+module.exports.varifyOTP = async (ctx) => {
   let otp = ctx.request.body.otp
   let details = ctx.request.body.details
 

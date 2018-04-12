@@ -1,9 +1,7 @@
 const UserModel = require('../models/user.model.js')
 
 module.exports.signIn = async function (username, password) {
-  console.log(username)
   let data = await UserModel.find({'phone_no': username}, ['phone_no', 'password', 'email'])
-  console.log(data)
   return data
 }
 
