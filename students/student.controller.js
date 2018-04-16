@@ -58,7 +58,13 @@ module.exports.removeStudent = async function (ctx) {
 module.exports.uploadStudents = async function (ctx) {
   let fileUrl = ctx.request.body.files.uploadFile.path
   let uploadData = await readFile(fileUrl)
-  let data = await studentService.uploadStudents(uploadData)
+  let data
+  if (uploadData.invalidStudentObject.length === 0 && uploadData.studentObject.length) {
+    let data = await studentService.uploadStudents(uploadData)
+  } else {
+
+  }
+
   ctx.body = data
 }
 
@@ -72,19 +78,39 @@ let isStudentExists = async function (reqBody) {
   return isExist
 }
 
-let readFile = function (path) {
+let readFile = async function (path) {
   let studentObject = []
+  let invalidStudentObject = []
   return new Promise((resolve, reject) => {
     csv().fromFile(path)
       .on('json', (jsonObj) => {
-        studentObject.push(jsonObj)
+        if (validateFileUpload('students', jsonObj)) {
+          studentObject.push(jsonObj)
+        } else {
+          invalidStudentObject.push(jsonObj)
+        }
       })
       .on('done', (error) => {
         if (error) {
           reject(error)
         } else {
-          resolve(studentObject)
+          resolve({
+            studentObject: studentObject,
+            invalidStudentObject: invalidStudentObject
+          })
         }
       })
   })
+}
+
+let validateFileUpload = async function (type, obj) {
+  var fileValidator
+  switch (type) {
+    case 'students':
+      fileValidator = await isStudentExists(obj)
+      break
+    case 'marks':
+      break
+  }
+  return fileValidator
 }
