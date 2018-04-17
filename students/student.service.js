@@ -27,7 +27,7 @@ module.exports.isStudentExists = async function (selector) {
 
 module.exports.uploadStudents = async function (stdObj) {
   let options = {
-    'ordered': true
+    'ordered': false
   }
   let data = await StudentModel.insertMany(stdObj, options)
   return data

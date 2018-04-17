@@ -59,13 +59,27 @@ module.exports.uploadStudents = async function (ctx) {
   let fileUrl = ctx.request.body.files.uploadFile.path
   let uploadData = await readFile(fileUrl)
   let data
-  if (uploadData.invalidStudentObject.length === 0 && uploadData.studentObject.length) {
-    let data = await studentService.uploadStudents(uploadData)
-  } else {
-
-  }
-
-  ctx.body = data
+  // if (!uploadData.studentObject) {
+  //   ctx.body = {
+  //     'message': 'Student upload failed',
+  //     'status': 504
+  //   }
+  // } else if (uploadData.invalidStudentObject.length > 0) {
+  //   data = await studentService.uploadStudents(uploadData.studentObject)
+  //   ctx.body = {
+  //     'message': 'Student upload partially successful',
+  //     'status': 200,
+  //     'failedData': uploadData.invalidStudentObject,
+  //     'data': data
+  //   }
+  // } else {
+  //   data = await studentService.uploadStudents(uploadData.studentObject)
+  //   ctx.body = {
+  //     'message': 'Student uploaded successfully',
+  //     'status': 200,
+  //     'data': data
+  //   }
+  // }
 }
 
 let isStudentExists = async function (reqBody) {
@@ -75,10 +89,11 @@ let isStudentExists = async function (reqBody) {
     'last_name': reqBody.last_name
   }
   let isExist = await studentService.isStudentExists(selector)
+  console.log(isExist)
   return isExist
 }
 
-let readFile = async function (path) {
+let readFile = function (path) {
   let studentObject = []
   let invalidStudentObject = []
   return new Promise((resolve, reject) => {
@@ -103,11 +118,11 @@ let readFile = async function (path) {
   })
 }
 
-let validateFileUpload = async function (type, obj) {
+let validateFileUpload = function (type, obj) {
   var fileValidator
   switch (type) {
     case 'students':
-      fileValidator = await isStudentExists(obj)
+      fileValidator = isStudentExists(obj)
       break
     case 'marks':
       break
