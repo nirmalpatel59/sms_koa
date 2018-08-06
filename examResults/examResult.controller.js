@@ -1,4 +1,5 @@
 let examResultService = require('./examResult.service.js')
+let common = require('../utils/common/')
 
 module.exports.getExamResult = async function (ctx) {
   let selector = {
@@ -29,30 +30,36 @@ module.exports.removeExamResult = async function (ctx) {
 
 module.exports.uploadExamResult = async function (ctx) {
   let fileUrl = ctx.request.body.files.uploadFile.path
-  let uploadData = await readFile(fileUrl)
+  let uploadData = await common.readFile(fileUrl, 'exams')
+  if (!uploadData.validObjects) {
+    ctx.body = {
+      'message': 'Result upload failed',
+      'status': 200
+    }
+  } else if (uploadData.invalidObjects && uploadData.invalidObjects.length > 0) {
+    let data = await examResultService.uploadExamResult(uploadData.validObjects)
+    ctx.body = {
+      'message': 'Result uploaded partially',
+      'status': 200,
+      'failedData': uploadData.invalidObjects,
+      'data': data
+    }
+  } else {
+    let data = await examResultService.uploadExamResult(uploadData.validObjects)
+    ctx.body = {
+      'message': 'Result successfully updated',
+      'status': 200,
+      'failedData': '',
+      'data': data
+    }
+  }
 }
 
-let readFile = function (path) {
-  let studentObject = []
-  let invalidStudentObject = []
-  return new Promise((resolve, reject) => {
-    csv().fromFile(path)
-      .on('json', (jsonObj) => {
-        if (validateFileUpload('students', jsonObj)) {
-          studentObject.push(jsonObj)
-        } else {
-          invalidStudentObject.push(jsonObj)
-        }
-      })
-      .on('done', (error) => {
-        if (error) {
-          reject(error)
-        } else {
-          resolve({
-            studentObject: studentObject,
-            invalidStudentObject: invalidStudentObject
-          })
-        }
-      })
-  })
+module.exports.isExamResultsExists = async function (reqBody) {
+  let selector = {
+    'studentId': reqBody.studentId,
+    'examID': reqBody.examId
+  }
+  let isExist = await examResultService.isExamResultsExists(selector)
+  return !!isExist
 }

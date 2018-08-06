@@ -67,6 +67,8 @@ priRouter.pst('/removeExam', require('./exams').removeExam)
 
 priRouter.get('/getExamResult', require('./examResults').getExamResult)
 priRouter.pst('/saveExamResult', require('./examResults').addExamResult)
+priRouter.pst('/uploadExamResult', require('./examResults').uploadExamResult)
+
 // priRouter.get('/students', require('./students/').getStudents)
 app.listen(config.api.port, () => {
   console.log(`server is running on port ${config.api.port}`)

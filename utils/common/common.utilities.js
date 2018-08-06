@@ -3,7 +3,8 @@ const saltRounds = 10
 const UserModel = require('../../models/user.model')
 const csv = require('csvtojson')
 const isStudentExists = require('../../students/student.controller').isStudentExists
-// isExamResultsExists
+const isExamResultsExists = require('../../examResults/examResult.controller').isExamResultsExists
+//
 
 module.exports.getHashedPassword = async function (password) {
   let hashedPassword = await bcrypt.hash(password, saltRounds)
@@ -15,13 +16,13 @@ module.exports.getUserData = async function (userSelector) {
   return data
 }
 
-module.exports.readFile = function (path) {
+module.exports.readFile = async function (path, type) {
   let validObjects = []
   let invalidObjects = []
   return new Promise((resolve, reject) => {
     csv().fromFile(path)
       .on('json', (jsonObj) => {
-        if (validateFileUpload('students', jsonObj)) {
+        if (validateFileUpload(type, jsonObj)) {
           validObjects.push(jsonObj)
         } else {
           invalidObjects.push(jsonObj)
@@ -33,21 +34,21 @@ module.exports.readFile = function (path) {
         } else {
           resolve({
             validObjects: validObjects,
-            invalidStudentObject: invalidObjects
+            invalidObjects: invalidObjects
           })
         }
       })
   })
 }
 
-let validateFileUpload = async function (type, obj) {
+let validateFileUpload = function (type, obj) {
   var fileValidator
   switch (type) {
     case 'students':
-      fileValidator = await isStudentExists(obj)
+      fileValidator = isStudentExists(obj)
       break
     case 'marks':
-      // fileValidator = isExamResultsExists(obj)
+      fileValidator = isExamResultsExists(obj)
       break
   }
   return fileValidator

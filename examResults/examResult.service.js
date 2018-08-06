@@ -11,8 +11,12 @@ module.exports.addExamResult = async function (examResultData) {
   return data
 }
 
-module.exports.uploadExamResult = async function () {
-
+module.exports.uploadExamResult = async function (examResultData) {
+  let options = {
+    'ordered': false
+  }
+  let data = await ExamResultModel.insertMany(examResultData, options)
+  return data
 }
 
 module.exports.removeExamResult = async function (selector) {

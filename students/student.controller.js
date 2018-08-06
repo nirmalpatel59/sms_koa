@@ -67,7 +67,7 @@ module.exports.getStudents = async function (ctx) {
 
 module.exports.uploadStudents = async function (ctx) {
   let fileUrl = ctx.request.body.files.uploadFile.path
-  let uploadData = await common.readFile(fileUrl)
+  let uploadData = await common.readFile(fileUrl, 'students')
   let data
   if (!uploadData.validObjects) {
     ctx.body = {
@@ -99,7 +99,11 @@ let isStudentExists = module.exports.isStudentExists = async function (reqBody) 
     'last_name': reqBody.last_name
   }
   let isExist = await studentService.isStudentExists(selector)
-  return isExist
+  if (isExist) {
+    return true
+  } else {
+    return false
+  }
 }
 
 // let readFile = function (path) {
