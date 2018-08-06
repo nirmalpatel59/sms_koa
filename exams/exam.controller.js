@@ -19,7 +19,7 @@ module.exports.saveExam = async function (ctx) {
     medium: ctxReqBody.medium,
     standard_stream: ctxReqBody.standard_stream,
     subject: ctxReqBody.subject,
-    created_by: ctxReqBody.created_by,
+    created_by: ctx.auth._id,
     duration: ctxReqBody.duration,
     duration_type: ctxReqBody.duration_type,
     passing_marks: ctxReqBody.passing_marks,

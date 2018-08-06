@@ -19,16 +19,40 @@ module.exports.addExamResult = async function (ctx) {
   ctx.body = data
 }
 
-module.exports.updateExamResult = async function (ctx) {
-  let reqBody = ctx.request.body
-  let data = await examResultService.updateExamResult(reqBody)
-  ctx.body = data
-}
-
 module.exports.removeExamResult = async function (ctx) {
   let selector = {
     'emailId': ctx.query.examId
   }
   let data = await examResultService.removeExamResult(selector)
   ctx.body = data
+}
+
+module.exports.uploadExamResult = async function (ctx) {
+  let fileUrl = ctx.request.body.files.uploadFile.path
+  let uploadData = await readFile(fileUrl)
+}
+
+let readFile = function (path) {
+  let studentObject = []
+  let invalidStudentObject = []
+  return new Promise((resolve, reject) => {
+    csv().fromFile(path)
+      .on('json', (jsonObj) => {
+        if (validateFileUpload('students', jsonObj)) {
+          studentObject.push(jsonObj)
+        } else {
+          invalidStudentObject.push(jsonObj)
+        }
+      })
+      .on('done', (error) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve({
+            studentObject: studentObject,
+            invalidStudentObject: invalidStudentObject
+          })
+        }
+      })
+  })
 }

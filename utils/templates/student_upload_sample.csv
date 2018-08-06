@@ -1,4 +1,8 @@
 first_name,last_name,middle_name,primary_address,secondary_address,e_phone_no,e_name,e_relation,gender,date_of_birth,date_of_joining,current_standard,current_standard_section,current_medium,current_roll_no
-Het,Patel,HashmukhBhai,A7 Harissidh villa ranip,Near Nikol Dmart,7878787880,HashmukhBhai,Father,Male,18-11-1990,18-11-1995,2,D,Gujarati,43
-Het,Patel,HashmukhBhai,A7 Harissidh villa ranip,Near Nikol Dmart,7878787878,HashmukhBhai,Father,Male,18-11-1990,18-11-1995,2,D,Gujarati,44
-Het,Patel,HashmukhBhai,A7 Harissidh villa ranip,Near Nikol Dmart,7878787872,HashmukhBhai,Father,Male,18-11-1990,18-11-1995,2,D,Gujarati,44
+Kiran,Chaowdhary,RajeshBhai,A10 Harissidh villa ranip,Near Nikol Dmart,7878787880,RajeshBhai,Father,Male,18-11-1990,18-11-1995,12,A,Gujarati,43
+Chandresh,Patel,PareshBhai,A7 Harissidh villa ranip,Near Nikol Dmart,7878787878,PareshBhai,Father,Male,18-11-1990,18-11-1995,12,A,Gujarati,44
+Diya,Patel,PareshBhai,A7 Harissidh villa ranip,Near Nikol Dmart,7878787878,PareshBhai,Father,Female,18-11-1990,18-11-1995,12,B,Gujarati,43
+Chittchor,Hidija,Kamleshbhai,A10 Arti Society Ghatlodia,Near SMVS schools,9898574741,RajeshBhai,Father,Male,18-11-1990,18-11-1995,12,A,Gujarati,48
+Chandresh,Patel,PareshBhai,A10 soja society ranip,Near navarsjan school,9898574742,PareshBhai,Father,Male,18-11-1990,18-11-1995,12,A,Gujarati,47
+radhi,Patel,PareshBhai,A10 soja society ranip,Near navarsjan school,9898574742,PareshBhai,Father,Female,18-11-1990,18-11-1995,12,B,Gujarati,46
+Guddi,Patel,KukaBhai,33 sherrji krupa,Near panchal vadi,9898753159,KukaBhai,Father,Female,18-11-1990,18-11-1995,12,A,Gujarati,45

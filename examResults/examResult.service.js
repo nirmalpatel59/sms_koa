@@ -11,9 +11,8 @@ module.exports.addExamResult = async function (examResultData) {
   return data
 }
 
-module.exports.updateExamResult = async function (examResultData) {
-  let data = await ExamResultModel.findByIdAndUpdate({ 'examId': examResultData.examId }, { $set: examResultData }, { new: true })
-  return data
+module.exports.uploadExamResult = async function () {
+
 }
 
 module.exports.removeExamResult = async function (selector) {

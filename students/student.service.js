@@ -32,3 +32,8 @@ module.exports.uploadStudents = async function (stdObj) {
   let data = await StudentModel.insertMany(stdObj, options)
   return data
 }
+
+module.exports.getStudents = async function (selector) {
+  let data = await StudentModel.find(selector)
+  return data
+}

@@ -1,5 +1,6 @@
 let studentService = require('./student.service')
-let csv = require('csvtojson')
+// let csv = require('csvtojson')
+let common = require('../utils/common/')
 // let config = require('config')
 // let fs = require('fs')
 
@@ -55,77 +56,73 @@ module.exports.removeStudent = async function (ctx) {
   ctx.body = data
 }
 
-module.exports.uploadStudents = async function (ctx) {
-  let fileUrl = ctx.request.body.files.uploadFile.path
-  let uploadData = await readFile(fileUrl)
-  let data
-  // if (!uploadData.studentObject) {
-  //   ctx.body = {
-  //     'message': 'Student upload failed',
-  //     'status': 504
-  //   }
-  // } else if (uploadData.invalidStudentObject.length > 0) {
-  //   data = await studentService.uploadStudents(uploadData.studentObject)
-  //   ctx.body = {
-  //     'message': 'Student upload partially successful',
-  //     'status': 200,
-  //     'failedData': uploadData.invalidStudentObject,
-  //     'data': data
-  //   }
-  // } else {
-  //   data = await studentService.uploadStudents(uploadData.studentObject)
-  //   ctx.body = {
-  //     'message': 'Student uploaded successfully',
-  //     'status': 200,
-  //     'data': data
-  //   }
-  // }
+module.exports.getStudents = async function (ctx) {
+  // TODO :: extends this endpoint to make generalize querySelector
+  let query = {}
+  query.current_standard = ctx.query.std
+  if (query.current_standard_section) query.current_standard_section = ctx.query.sec
+  let data = await studentService.getStudents(query)
+  ctx.body = data
 }
 
-let isStudentExists = async function (reqBody) {
+module.exports.uploadStudents = async function (ctx) {
+  let fileUrl = ctx.request.body.files.uploadFile.path
+  let uploadData = await common.readFile(fileUrl)
+  let data
+  if (!uploadData.validObjects) {
+    ctx.body = {
+      'message': 'Student upload failed',
+      'status': 504
+    }
+  } else if (uploadData.invalidObjects.length > 0) {
+    data = await studentService.uploadStudents(uploadData.studentObject)
+    ctx.body = {
+      'message': 'Student upload partially successful',
+      'status': 200,
+      'failedData': uploadData.invalidObjects,
+      'data': data
+    }
+  } else {
+    data = await studentService.uploadStudents(uploadData.validObjects)
+    ctx.body = {
+      'message': 'Student uploaded successfully',
+      'status': 200,
+      'data': data
+    }
+  }
+}
+
+let isStudentExists = module.exports.isStudentExists = async function (reqBody) {
   let selector = {
     'e_phone_no': reqBody.e_phone_no,
     'first_name': reqBody.first_name,
     'last_name': reqBody.last_name
   }
   let isExist = await studentService.isStudentExists(selector)
-  console.log(isExist)
   return isExist
 }
 
-let readFile = function (path) {
-  let studentObject = []
-  let invalidStudentObject = []
-  return new Promise((resolve, reject) => {
-    csv().fromFile(path)
-      .on('json', (jsonObj) => {
-        if (validateFileUpload('students', jsonObj)) {
-          studentObject.push(jsonObj)
-        } else {
-          invalidStudentObject.push(jsonObj)
-        }
-      })
-      .on('done', (error) => {
-        if (error) {
-          reject(error)
-        } else {
-          resolve({
-            studentObject: studentObject,
-            invalidStudentObject: invalidStudentObject
-          })
-        }
-      })
-  })
-}
-
-let validateFileUpload = function (type, obj) {
-  var fileValidator
-  switch (type) {
-    case 'students':
-      fileValidator = isStudentExists(obj)
-      break
-    case 'marks':
-      break
-  }
-  return fileValidator
-}
+// let readFile = function (path) {
+//   let studentObject = []
+//   let invalidStudentObject = []
+//   return new Promise((resolve, reject) => {
+//     csv().fromFile(path)
+//       .on('json', (jsonObj) => {
+//         if (validateFileUpload('students', jsonObj)) {
+//           studentObject.push(jsonObj)
+//         } else {
+//           invalidStudentObject.push(jsonObj)
+//         }
+//       })
+//       .on('done', (error) => {
+//         if (error) {
+//           reject(error)
+//         } else {
+//           resolve({
+//             studentObject: studentObject,
+//             invalidStudentObject: invalidStudentObject
+//           })
+//         }
+//       })
+//   })
+// }

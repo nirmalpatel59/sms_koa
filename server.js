@@ -35,17 +35,16 @@ app.use(koaBody({
 }))
 
 // Public Routes
+pubRouter.get('/hello', ctx => { ctx.body = 'Alive Happy and Handsome !!!' })
 pubRouter.pst('/signin', require('./auth').signIn)
 pubRouter.pst('/signup', require('./auth').signUp)
 pubRouter.pst('/forgot_password', require('./auth').forgotPassword)
 pubRouter.pst('/varify_otp', require('./auth').varifyOTP)
 pubRouter.pst('/stdSignIn', require('./stdApis/auth').signIn)
+pubRouter.pst('/stdSignIn', require('./stdApis/auth').signIn)
 
 // Private Routes
 app.use(compose([errorLog, requestLog, pubRouter.routes(), pubRouter.allowedMethods(), auth(), priRouter.routes(), priRouter.allowedMethods()]))
-priRouter.get('/', ctx => {
-  ctx.body = 'Alive Happy and Handsome !!!'
-})
 priRouter.get('/users', require('./users/').getUser)
 priRouter.pst('/users', require('./users').saveUser)
 priRouter.put('/users', require('./users').updateUser)
@@ -57,6 +56,7 @@ priRouter.get('/student', require('./students').getStudent)
 priRouter.pst('/student', require('./students').addStudent)
 priRouter.put('/student', require('./students').updateStudent)
 priRouter.del('/student', require('./students').removeStudent)
+priRouter.get('/getStudents', require('./students').getStudents)
 
 priRouter.pst('/upload_students', require('./students').uploadStudents)
 
@@ -68,7 +68,6 @@ priRouter.pst('/removeExam', require('./exams').removeExam)
 priRouter.get('/getExamResult', require('./examResults').getExamResult)
 priRouter.pst('/saveExamResult', require('./examResults').addExamResult)
 // priRouter.get('/students', require('./students/').getStudents)
-pubRouter.pst('/stdSignIn', require('./stdApis/auth').signIn)
 app.listen(config.api.port, () => {
   console.log(`server is running on port ${config.api.port}`)
 })
