@@ -3,7 +3,7 @@ let common = require('../utils/common/')
 
 module.exports.getExamResult = async function (ctx) {
   let selector = {
-    'examId': ctx.query.examId
+    'exam_id': ctx.query.examId
   }
   let data = await examResultService.getExamResult(selector)
   ctx.body = data
@@ -11,8 +11,9 @@ module.exports.getExamResult = async function (ctx) {
 
 module.exports.addExamResult = async function (ctx) {
   let examData = {
-    studentId: ctx.request.body.studentId,
-    examId: ctx.request.body.examId,
+    student_id: ctx.request.body.studentId,
+    exam_id: ctx.request.body.examId,
+    exam_ref_id: ctx.request.body.examRefId,
     marks: ctx.request.body.marks,
     uploaded_by: ctx.auth._id
   }
@@ -22,7 +23,7 @@ module.exports.addExamResult = async function (ctx) {
 
 module.exports.removeExamResult = async function (ctx) {
   let selector = {
-    'emailId': ctx.query.examId
+    'exam_id': ctx.query.examId
   }
   let data = await examResultService.removeExamResult(selector)
   ctx.body = data
@@ -57,8 +58,8 @@ module.exports.uploadExamResult = async function (ctx) {
 
 module.exports.isExamResultsExists = async function (reqBody) {
   let selector = {
-    'studentId': reqBody.studentId,
-    'examID': reqBody.examId
+    'student_id': reqBody.studentId,
+    'exam_id': reqBody.examId
   }
   let isExist = await examResultService.isExamResultsExists(selector)
   return !!isExist

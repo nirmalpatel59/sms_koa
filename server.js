@@ -41,8 +41,8 @@ pubRouter.pst('/signup', require('./auth').signUp)
 pubRouter.pst('/forgot_password', require('./auth').forgotPassword)
 pubRouter.pst('/varify_otp', require('./auth').varifyOTP)
 pubRouter.pst('/stdSignIn', require('./stdApis/auth').signIn)
-pubRouter.pst('/stdSignIn', require('./stdApis/auth').signIn)
-
+// TODO :: authentication mechanism for RN Student APP
+pubRouter.pst('/getResultByStudentId', require('./stdApis/results').getResultByStudentId)
 // Private Routes
 app.use(compose([errorLog, requestLog, pubRouter.routes(), pubRouter.allowedMethods(), auth(), priRouter.routes(), priRouter.allowedMethods()]))
 priRouter.get('/users', require('./users/').getUser)

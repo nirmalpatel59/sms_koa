@@ -1,7 +1,7 @@
 let ExamResultModel = require('../models/examResult.model')
 
 module.exports.getExamResult = async function (selector) {
-  let data = await ExamResultModel.findOne(selector).populate('studentId uploaded_by examId')
+  let data = await ExamResultModel.find(selector).populate('studentId uploaded_by examRefId')
   return data
 }
 

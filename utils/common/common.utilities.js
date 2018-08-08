@@ -22,11 +22,11 @@ module.exports.readFile = async function (path, type) {
   return new Promise((resolve, reject) => {
     csv().fromFile(path)
       .on('json', (jsonObj) => {
-        if (validateFileUpload(type, jsonObj)) {
-          validObjects.push(jsonObj)
-        } else {
-          invalidObjects.push(jsonObj)
-        }
+        // if (!validateFileUpload(type, jsonObj)) {
+        //   invalidObjects.push(jsonObj)
+        // } else {
+        validObjects.push(jsonObj)
+        // }
       })
       .on('done', (error) => {
         if (error) {
