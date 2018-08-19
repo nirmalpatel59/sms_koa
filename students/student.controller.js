@@ -1,9 +1,10 @@
+// let util = require('util')
 let studentService = require('./student.service')
 // let csv = require('csvtojson')
 let common = require('../utils/common/')
 // let config = require('config')
 // let fs = require('fs')
-
+// let asyncReadFile = util.promisify(common.readFile)
 module.exports.getStudent = async function (ctx) {
   let studentId = ctx.query.studentId
   let data = await studentService.getStudent(studentId)
@@ -67,7 +68,8 @@ module.exports.getStudents = async function (ctx) {
 
 module.exports.uploadStudents = async function (ctx) {
   let fileUrl = ctx.request.body.files.uploadFile.path
-  let uploadData = await common.readFile(fileUrl, 'students')
+  let uploadData = await common.readFile(fileUrl)
+  // for(var i=0;i<upload)
   let data
   if (!uploadData.validObjects) {
     ctx.body = {
@@ -99,11 +101,7 @@ let isStudentExists = module.exports.isStudentExists = async function (reqBody) 
     'last_name': reqBody.last_name
   }
   let isExist = await studentService.isStudentExists(selector)
-  if (isExist) {
-    return true
-  } else {
-    return false
-  }
+  return !!isExist
 }
 
 // let readFile = function (path) {

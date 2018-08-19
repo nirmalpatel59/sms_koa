@@ -16,28 +16,30 @@ module.exports.getUserData = async function (userSelector) {
   return data
 }
 
-module.exports.readFile = async function (path, type) {
-  let validObjects = []
-  let invalidObjects = []
-  return new Promise((resolve, reject) => {
-    csv().fromFile(path)
-      .on('json', (jsonObj) => {
-        // if (!validateFileUpload(type, jsonObj)) {
-        //   invalidObjects.push(jsonObj)
-        // } else {
+module.exports.readFile = async function (path) {
+  var validObjects = []
+  var invalidObjects = []
+  // const jsonArray = await csv().fromFile(path)
+  // return jsonArray
+  return new Promise(async (resolve, reject) => {
+    await csv().fromFile(path).subscribe(async (jsonObj) => {
+      var isExist = await validateFileUpload('students', jsonObj)
+      if (isExist) {
+        invalidObjects.push(jsonObj)
+      } else {
         validObjects.push(jsonObj)
-        // }
-      })
-      .on('done', (error) => {
-        if (error) {
-          reject(error)
-        } else {
-          resolve({
-            validObjects: validObjects,
-            invalidObjects: invalidObjects
-          })
-        }
-      })
+      }
+    }).on('done', (error) => {
+      if (error) {
+        console.log(error)
+        reject(error)
+      } else {
+        resolve({
+          validObjects: validObjects,
+          invalidObjects: invalidObjects
+        })
+      }
+    })
   })
 }
 

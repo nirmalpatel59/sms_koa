@@ -7,8 +7,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "runtimeExecutable": "/home/nirmalpatel/.nvm/versions/node/v8.0.0/bin/node",
+      "name": "node",
+      "runtimeExecutable": "/home/nirmal/.nvm/versions/node/v9.3.0/bin/node",
+      "cwd":"${workspaceFolder}/",
       "program": "${workspaceRoot}/server.js",
       "env": {
         "NODE_ENV": "localdev"
