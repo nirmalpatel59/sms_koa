@@ -16,14 +16,14 @@ module.exports.getUserData = async function (userSelector) {
   return data
 }
 
-module.exports.readFile = async function (path) {
+module.exports.readFile = async function (path, type) {
   var validObjects = []
   var invalidObjects = []
   // const jsonArray = await csv().fromFile(path)
   // return jsonArray
   return new Promise(async (resolve, reject) => {
     await csv().fromFile(path).subscribe(async (jsonObj) => {
-      var isExist = await validateFileUpload('students', jsonObj)
+      var isExist = await validateFileUpload(type, jsonObj)
       if (isExist) {
         invalidObjects.push(jsonObj)
       } else {

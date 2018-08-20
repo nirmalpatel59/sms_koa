@@ -68,7 +68,7 @@ module.exports.getStudents = async function (ctx) {
 
 module.exports.uploadStudents = async function (ctx) {
   let fileUrl = ctx.request.body.files.uploadFile.path
-  let uploadData = await common.readFile(fileUrl)
+  let uploadData = await common.readFile(fileUrl,"students")
   // for(var i=0;i<upload)
   let data
   if (!uploadData.validObjects) {
@@ -77,7 +77,7 @@ module.exports.uploadStudents = async function (ctx) {
       'status': 504
     }
   } else if (uploadData.invalidObjects.length > 0) {
-    data = await studentService.uploadStudents(uploadData.studentObject)
+    data = await studentService.uploadStudents(uploadData.validObjects)
     ctx.body = {
       'message': 'Student upload partially successful',
       'status': 200,
