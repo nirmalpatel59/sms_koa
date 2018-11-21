@@ -10,6 +10,7 @@ module.exports.signIn = async function (ctx) {
 
   if (isExist.status) {
     ctx.body = {
+      status: isExist.status,
       message: isExist.message,
       token: jwt.sign({
         'username': isExist.data.e_phone_no,
@@ -19,7 +20,7 @@ module.exports.signIn = async function (ctx) {
       }, config.auth.secret)
     }
   } else {
-    ctx.body = isExist.message
+    ctx.body = isExist
   }
 }
 

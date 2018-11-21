@@ -5,7 +5,7 @@ let config = require('config')
 let ExamResultSchema = new Schema({
   student_id: { type: Schema.ObjectId, ref: config.collections.STUDENTS },
   exam_id: { type: String },
-  exam_ref_id: { type: String, ref: config.collections.EXAMS },
+  exam_ref_id: { type: Schema.ObjectId, ref: config.collections.EXAMS },
   marks: { type: Number },
   uploaded_by: { type: Schema.ObjectId, ref: config.collections.USERS }
 })
